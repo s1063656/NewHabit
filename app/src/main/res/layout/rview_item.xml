@@ -19,14 +19,13 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:orientation="horizontal">
-
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:srcCompat="@android:mipmap/sym_def_app_icon" />
-
+            app:srcCompat="@drawable/light_off"
+            />
         <EditText
             android:id="@+id/editText"
             android:layout_width="wrap_content"
@@ -35,6 +34,8 @@
             android:ems="10"
             android:inputType="textPersonName"
             android:hint="每日小記..." />
+
+
 
     </LinearLayout>
 

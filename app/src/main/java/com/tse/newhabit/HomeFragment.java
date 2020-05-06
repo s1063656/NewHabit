@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,7 +35,8 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view ,saveInstanceState);
         mRView_cell = view.findViewById(R.id.RView_cell);
         mRView_cell.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRView_cell.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
         mRView_cell.setAdapter(new RViewAdapter(getActivity()));
-
+        mRView_cell.setItemViewCacheSize(100);
     }
 }
