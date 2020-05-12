@@ -12,10 +12,13 @@ import android.widget.FrameLayout;
 
 import com.google.android.material.tabs.TabLayout;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
     public static int lastPosition = 0;
+
     /*private HomeFragment mHomeFragment;*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,10 @@ public class MainActivity extends AppCompatActivity {
         });
         setupViewPager(mViewPager);
         mTabLayout.setupWithViewPager(mViewPager);
+        mTabLayout.getTabAt(0).setIcon(R.drawable.home);
+        mTabLayout.getTabAt(1).setIcon(R.drawable.create);
+        mTabLayout.getTabAt(2).setIcon(R.drawable.info);
+
         /*mHomeFragment = new HomeFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();

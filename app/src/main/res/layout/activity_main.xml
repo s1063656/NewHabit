@@ -18,21 +18,18 @@
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="15">
+        android:layout_weight="10">
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="1" />
+            android:layout_height="wrap_content" />
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="2" />
+            android:layout_height="wrap_content" />
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="3" />
+            android:layout_height="wrap_content" />
     </com.google.android.material.tabs.TabLayout>
 </LinearLayout>
