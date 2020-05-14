@@ -27,7 +27,7 @@ import java.util.ArrayList;
 public class CreateFragment extends Fragment {
     private Button createBtn;
     private RecyclerView drv;
-    private ArrayList<habit> arr = new ArrayList<>();
+
     public CreateFragment() {
         // Required empty public constructor
     }
@@ -47,34 +47,30 @@ public class CreateFragment extends Fragment {
         createBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MainActivity.arr.add(new habit(title.getText().toString().trim()));
                 final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
                 View dView = LayoutInflater.from(getActivity()).inflate(R.layout.create_dialog,null);
                 final Button done = (Button) dView.findViewById(R.id.done);
+                final Button set = (Button) dView.findViewById(R.id.setAlarm);
                 final TimePicker timePicker = (TimePicker)dView.findViewById(R.id.time_picker);
-
                 drv = dView.findViewById(R.id.drv);
                 drv.setLayoutManager(new LinearLayoutManager(getActivity()));
                 drv.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
                 drv.setAdapter(new dialogRV(getActivity()));
                 drv.setItemViewCacheSize(30);
-
-
-
-                timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+                set.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onTimeChanged(TimePicker view, int hour, int minute) {
-                        Toast.makeText(getActivity(),"新增提醒："+hour+"時"+minute+"分",Toast.LENGTH_SHORT).show();
+                    public void onClick(View v) {
+                        MainActivity.arr.get(MainActivity.arr.size()-1).addRemindTime(timePicker.getHour(),timePicker.getMinute());
                     }
                 });
                 timePicker.setIs24HourView(true);
-
                 builder.setView(dView);
                 final AlertDialog close = builder.show();
                 done.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        arr.add(new habit(title.getText().toString().trim()));
+                        MainActivity.arr.get(MainActivity.arr.size()-1).showAlarm();
                         close.dismiss();
                     }
                 });

@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
     public static int lastPosition = 0;
-
+    public static ArrayList<habit> arr = new ArrayList<>();
     /*private HomeFragment mHomeFragment;*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
