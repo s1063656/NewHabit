@@ -29,6 +29,9 @@ public class habit {
 
     public void showAlarm(){
         SimpleDateFormat df = new SimpleDateFormat("HH:mm");
-        System.out.println(df.format(c.get(c.size()-1).getTime()));
+        for(int i = 0;i<c.size();i++) {
+            System.out.println(df.format(c.get(i).getTime()));
+        }
+
     }
 }
