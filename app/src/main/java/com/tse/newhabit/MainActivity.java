@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
     public static int lastPosition = 0;
-    public static ArrayList<habit> arr = new ArrayList<>();
+    public static ArrayList<Habit> HabitList = new ArrayList<>();
     /*private HomeFragment mHomeFragment;*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,9 +29,7 @@ public class MainActivity extends AppCompatActivity {
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
             }
-
             @Override
             public void onPageSelected(int position) {
                 lastPosition = position;
@@ -48,17 +46,12 @@ public class MainActivity extends AppCompatActivity {
         mTabLayout.getTabAt(1).setIcon(R.drawable.create);
         mTabLayout.getTabAt(2).setIcon(R.drawable.info);
 
-        /*mHomeFragment = new HomeFragment();
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.add(R.id.frameLayout,mHomeFragment).commitAllowingStateLoss();*/
     }
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new HomeFragment(), "Home");
         adapter.addFragment(new CreateFragment(), "Create");
         adapter.addFragment(new InfoFragment(), "Info");
-
         viewPager.setAdapter(adapter);
     }
 }
