@@ -4,16 +4,33 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
-
-    <TextView
-        android:id="@+id/RView_item_Title"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_weight="1"
-        android:gravity="center|left"
-        android:paddingLeft="110dp"
-        android:text="Title"
-        android:textSize="20dp" />
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/RView_item_Title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:paddingLeft="110dp"
+            android:text="Title"
+            android:textSize="20dp" />
+
+        <Button
+            android:id="@+id/information"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:textSize="18dp"
+            android:background="@drawable/enter_button"
+            android:text="詳情" />
+
+
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -34,6 +51,7 @@
             android:layout_width="240dp"
             android:layout_height="48dp"
             android:layout_weight="1"
+            android:textSize="18dp"
             android:background="@drawable/text_shape"
             android:ems="10"
             android:hint="每日小記..."
@@ -44,12 +62,14 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/txv"
+        android:id="@+id/date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="項目進行中..."
+        android:text="項目進行中"
         android:textSize="15dp" />
+
+
 
 </LinearLayout>

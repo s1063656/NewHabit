@@ -1,5 +1,6 @@
 package com.tse.newhabit;
 
+import android.app.NotificationManager;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -17,11 +18,12 @@ import android.view.ViewGroup;
  * A simple {@link Fragment} subclass.
  */
 public class HomeFragment extends Fragment {
+
     private RecyclerView mRView_cell;
+
     public HomeFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

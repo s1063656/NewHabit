@@ -56,6 +56,7 @@ public class CreateFragment extends Fragment {
                 final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 final View dView = LayoutInflater.from(getActivity()).inflate(R.layout.create_dialog,null);
                 final dialogRV DAdapter = new dialogRV(getActivity());
+
                     drv = dView.findViewById(R.id.drv);
                     drv.setLayoutManager(new LinearLayoutManager(getActivity()));
                     drv.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
