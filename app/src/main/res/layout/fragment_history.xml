@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="5dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/subjectTitle"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:textSize="32dp"
+            android:background="@drawable/cover_top"
+            android:layout_height="wrap_content"
+            android:text="項目名稱" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:orientation="horizontal">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:background="@drawable/cover_left"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:background="@drawable/cover_right"
+                android:orientation="vertical"></LinearLayout>
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/historyList"
+            android:background="@drawable/text_shape"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+</FrameLayout>

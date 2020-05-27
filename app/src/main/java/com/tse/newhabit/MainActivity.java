@@ -54,4 +54,5 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFragment(new InfoFragment(), "Info");
         viewPager.setAdapter(adapter);
     }
+
 }

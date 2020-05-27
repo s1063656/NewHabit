@@ -6,8 +6,9 @@
     android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:layout_weight="1"
+        android:padding="5dp"
         android:orientation="horizontal">
         <TextView
             android:id="@+id/RView_item_Title"
@@ -18,20 +19,15 @@
             android:paddingLeft="110dp"
             android:text="Title"
             android:textSize="20dp" />
-
         <Button
-            android:id="@+id/information"
+            android:id="@+id/history_button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="4"
             android:textSize="18dp"
             android:background="@drawable/enter_button"
             android:text="詳情" />
-
-
     </LinearLayout>
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

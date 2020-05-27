@@ -56,18 +56,14 @@ public class CreateFragment extends Fragment {
                 final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 final View dView = LayoutInflater.from(getActivity()).inflate(R.layout.create_dialog,null);
                 final dialogRV DAdapter = new dialogRV(getActivity());
-
                     drv = dView.findViewById(R.id.drv);
                     drv.setLayoutManager(new LinearLayoutManager(getActivity()));
                     drv.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
                     drv.setAdapter(DAdapter);
-                    drv.setItemViewCacheSize(30);
+                    drv.setItemViewCacheSize(21);
                 final Button done = (Button) dView.findViewById(R.id.done);
                 final Button set = (Button) dView.findViewById(R.id.setAlarm);
-
                 final TimePicker timePicker = (TimePicker)dView.findViewById(R.id.time_picker);
-
-
                 if(title.getText().toString().equals("")){
                     Toast.makeText(getActivity(),"請輸入一項習慣",Toast.LENGTH_LONG).show();
                 }else{

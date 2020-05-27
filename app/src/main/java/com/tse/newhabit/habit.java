@@ -5,17 +5,25 @@ import android.widget.Toast;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 public class Habit {
     private String Title;
     private ArrayList<Calendar> HabitCalendarList = new ArrayList<>();
-    private Boolean [] check = new Boolean [30];
+    private Boolean [] check = new Boolean [21];
+    final private Date date = new Date();
+    private String[] diary = new String[21];
+    public String getDateTime(){
+        SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy/MM/dd");
+        String strDate = sdFormat.format(date);
+        return strDate;
+    }
     public Habit(String t){
          this.Title = t;
          init();
     }
     public void init(){
-        for(int i=0;i<30;i++){
+        for(int i=0;i<21;i++){
             check[i]=false;
         }
     }
@@ -47,10 +55,8 @@ public class Habit {
             System.out.println(df.format(HabitCalendarList.get(HabitCalendarList.size() - 1).getTime()));
             return true;
         }else{
-
             return false;
         }
-
     }
     public void removeRemindTime(int position){
         HabitCalendarList.remove(position);
@@ -62,4 +68,28 @@ public class Habit {
         }
 
     }
-}
+    public void editDiary(Date d,String newDiary){
+        diary[getGapCount(d)]=newDiary;
+    }
+    public String getDiary(int position){
+        return diary[position];
+    }
+    public  int getGapCount(Date endDate) {
+             Calendar fromCalendar = Calendar.getInstance();
+             fromCalendar.setTime(date);
+             fromCalendar.set(Calendar.HOUR_OF_DAY, 0);
+             fromCalendar.set(Calendar.MINUTE, 0);
+             fromCalendar.set(Calendar.SECOND, 0);
+             fromCalendar.set(Calendar.MILLISECOND, 0);
+
+            Calendar toCalendar = Calendar.getInstance();
+            toCalendar.setTime(endDate);
+            toCalendar.set(Calendar.HOUR_OF_DAY, 0);
+            toCalendar.set(Calendar.MINUTE, 0);
+            toCalendar.set(Calendar.SECOND, 0);
+            toCalendar.set(Calendar.MILLISECOND, 0);
+            System.out.println((int) ((toCalendar.getTime().getTime() - fromCalendar.getTime().getTime()) / (1000 * 60 * 60 * 24)));
+            return (int) ((toCalendar.getTime().getTime() - fromCalendar.getTime().getTime()) / (1000 * 60 * 60 * 24));
+    }
+    }
+
