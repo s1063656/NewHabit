@@ -6,6 +6,8 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -17,12 +19,20 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
+    public static SQLiteDatabase db = null;
     public static int lastPosition = 0;
     public static ArrayList<Habit> HabitList = new ArrayList<>();
     /*private HomeFragment mHomeFragment;*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        db = openOrCreateDatabase("habit.db", Context.MODE_PRIVATE,null);
+        String strcreatedb = "CREATE TABLE IF NOT EXISTS " + "tHabit (hID INTEGER PRIMARY KEY,hName TEXT NOT NULL, hDate TEXT NOT NULL)";
+        db.execSQL(strcreatedb);
+        strcreatedb = "CREATE TABLE IF NOT EXISTS " + "tAlarm (aID INTEGER PRIMARY KEY,hID INTEGER NOT NULL, aTime TEXT NOT NULL, FOREIGN KEY (hID) REFERENCES tHabit(hID))";
+        db.execSQL(strcreatedb);
+        strcreatedb = "CREATE TABLE IF NOT EXISTS " + "tDaily (dID INTEGER PRIMARY KEY,hID INTEGER NOT NULL, dDate TEXT , dDairy TEXT, FOREIGN KEY (hID) REFERENCES tHabit(hID))";
+        db.execSQL(strcreatedb);
         setContentView(R.layout.activity_main);
         mViewPager = (ViewPager) findViewById(R.id.viewPager);
         mTabLayout = (TabLayout) findViewById(R.id.tabLayout);
@@ -54,5 +64,4 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFragment(new InfoFragment(), "Info");
         viewPager.setAdapter(adapter);
     }
-
 }

@@ -1,7 +1,9 @@
 package com.tse.newhabit;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -89,8 +91,15 @@ public class CreateFragment extends Fragment {
                     done.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            habitList.get(habitList.size()-1).showAlarm(getActivity());
+                            habitList.get(habitList.size()-1).showAlarm();
                             title.setText("");
+                            String strinsertsql = "INSERT INTO tHabit (hName,hDate) values " +
+                                    "("+habitList.get(habitList.size()-1).getTitle()+","+habitList.get(habitList.size()-1).getDateTime()+")";
+                            MainActivity.db.execSQL(strinsertsql);
+                            for(int i = 0;i<habitList.get(habitList.size()-1).getNumOfAlarm();i++) {
+                                strinsertsql = "INSERT INTO tAlarm (hID,aTime) values " + "(" + habitList.size() + "," + habitList.get(habitList.size() - 1).getSingleAlarm(i);
+                                MainActivity.db.execSQL(strinsertsql);
+                            }
                             close.dismiss();
                         }
                     });

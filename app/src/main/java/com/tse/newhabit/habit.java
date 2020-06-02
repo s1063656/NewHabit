@@ -61,7 +61,11 @@ public class Habit {
     public void removeRemindTime(int position){
         HabitCalendarList.remove(position);
     }
-    public void showAlarm(Context context){
+    public String getSingleAlarm(int num){
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm");
+        return df.format(HabitCalendarList.get(num).getTime());
+    }
+    public void showAlarm(){
         SimpleDateFormat df = new SimpleDateFormat("HH:mm");
         for(int i = 0;i<HabitCalendarList.size();i++) {
             System.out.println(df.format(HabitCalendarList.get(i).getTime()));
