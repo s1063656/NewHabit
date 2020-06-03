@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,11 @@ import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.sql.Time;
 import java.text.SimpleDateFormat;
@@ -55,6 +61,7 @@ public class CreateFragment extends Fragment {
         createBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 final View dView = LayoutInflater.from(getActivity()).inflate(R.layout.create_dialog,null);
                 final dialogRV DAdapter = new dialogRV(getActivity());
@@ -93,13 +100,6 @@ public class CreateFragment extends Fragment {
                         public void onClick(View v) {
                             habitList.get(habitList.size()-1).showAlarm();
                             title.setText("");
-                            String strinsertsql = "INSERT INTO tHabit (hName,hDate) values " +
-                                    "("+habitList.get(habitList.size()-1).getTitle()+","+habitList.get(habitList.size()-1).getDateTime()+")";
-                            MainActivity.db.execSQL(strinsertsql);
-                            for(int i = 0;i<habitList.get(habitList.size()-1).getNumOfAlarm();i++) {
-                                strinsertsql = "INSERT INTO tAlarm (hID,aTime) values " + "(" + habitList.size() + "," + habitList.get(habitList.size() - 1).getSingleAlarm(i);
-                                MainActivity.db.execSQL(strinsertsql);
-                            }
                             close.dismiss();
                         }
                     });
