@@ -1,11 +1,11 @@
 package com.tse.newhabit;
 
-import android.app.Activity;
+
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.Context;
+
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -18,20 +18,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.NumberPicker;
+
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.sql.Time;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -44,8 +43,6 @@ public class CreateFragment extends Fragment {
     public CreateFragment() {
         // Required empty public constructor
     }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -61,7 +58,6 @@ public class CreateFragment extends Fragment {
         createBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 final View dView = LayoutInflater.from(getActivity()).inflate(R.layout.create_dialog,null);
                 final dialogRV DAdapter = new dialogRV(getActivity());
@@ -101,6 +97,27 @@ public class CreateFragment extends Fragment {
                             habitList.get(habitList.size()-1).showAlarm();
                             title.setText("");
                             close.dismiss();
+                            Habit item = MainActivity.HabitList.get(MainActivity.HabitList.size()-1);
+                            FirebaseFirestore db = FirebaseFirestore.getInstance();
+                            Map<String,Object> habit = new HashMap<>();
+                            habit.put("習慣名稱",item.getTitle());
+                            habit.put("開始日期",item.getDateTime());
+
+
+                            db.collection("s1063656@gm.pu.edu.tw")
+                                    .add(habit)
+                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                        @Override
+                                        public void onSuccess(DocumentReference documentReference) {
+                                            Log.d("response","成功:"+documentReference.getId());
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.w("response","失敗:",e);
+                                        }
+                                    });
                         }
                     });
             }}
