@@ -30,27 +30,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
         Intent it = getIntent();
-        db.collection(it.getStringExtra("USERID"))
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            int i = 0;
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                HabitList.add(new Habit(document.getString("habitName"),document.get("beginDate")));
-                                Log.d("TAG", document.getId() + " => " + HabitList.get(i).getTitle());
-                                Log.d("TAG", document.getId() + " => " + document.getData());
-                                i++;
-                            }
-                        } else {
-                            Log.w("TAG", "Error getting documents.", task.getException());
-                        }
-                    }
-                });
-        try{Thread.sleep(2000);}catch (Exception e){}
+
+
         mViewPager = (ViewPager) findViewById(R.id.viewPager);
         mTabLayout = (TabLayout) findViewById(R.id.tabLayout);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
