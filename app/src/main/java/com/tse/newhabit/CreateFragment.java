@@ -3,6 +3,7 @@ package com.tse.newhabit;
 
 import android.app.AlertDialog;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -52,6 +53,7 @@ public class CreateFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle saveInstanceState) {
         super.onViewCreated(view ,saveInstanceState);
+        final Intent it = getActivity().getIntent();
         final EditText title = (EditText) view.findViewById(R.id.create_newHabit);
         final ArrayList<Habit> habitList =  MainActivity.HabitList;
         Button createBtn = (Button) view.findViewById(R.id.create_btn);
@@ -100,11 +102,10 @@ public class CreateFragment extends Fragment {
                             Habit item = MainActivity.HabitList.get(MainActivity.HabitList.size()-1);
                             FirebaseFirestore db = FirebaseFirestore.getInstance();
                             Map<String,Object> habit = new HashMap<>();
-                            habit.put("習慣名稱",item.getTitle());
-                            habit.put("開始日期",item.getDateTime());
-
-
-                            db.collection("s1063656@gm.pu.edu.tw")
+                            habit.put("habitName",item.getTitle());
+                            habit.put("beginDate",item.getDateTime());
+                            habit.put("alarms",item.getHabitAlarmList());
+                            db.collection(it.getStringExtra("USERID"))
                                     .add(habit)
                                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                         @Override

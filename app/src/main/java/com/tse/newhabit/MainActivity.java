@@ -1,29 +1,28 @@
 package com.tse.newhabit;
 
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
+import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
 
 public class MainActivity extends AppCompatActivity {
+    public String userEmail;
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
+    private ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
     public static int lastPosition = 0;
     public static ArrayList<Habit> HabitList = new ArrayList<>();
     /*private HomeFragment mHomeFragment;*/
@@ -32,28 +31,26 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        // Create a new user with a first and last name
-        Map<String, Object> user = new HashMap<>();
-        user.put("first", "Ada");
-        user.put("last", "Lovelace");
-        user.put("born", 1815);
-
-// Add a new document with a generated ID
-        db.collection("users")
-                .add(user)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+        Intent it = getIntent();
+        db.collection(it.getStringExtra("USERID"))
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d("TAG", "DocumentSnapshot added with ID: " + documentReference.getId());
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w("TAG", "Error adding document", e);
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            int i = 0;
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                HabitList.add(new Habit(document.getString("habitName"),document.get("beginDate")));
+                                Log.d("TAG", document.getId() + " => " + HabitList.get(i).getTitle());
+                                Log.d("TAG", document.getId() + " => " + document.getData());
+                                i++;
+                            }
+                        } else {
+                            Log.w("TAG", "Error getting documents.", task.getException());
+                        }
                     }
                 });
-
+        try{Thread.sleep(2000);}catch (Exception e){}
         mViewPager = (ViewPager) findViewById(R.id.viewPager);
         mTabLayout = (TabLayout) findViewById(R.id.tabLayout);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -67,17 +64,17 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
             }
         });
+
         setupViewPager(mViewPager);
         mTabLayout.setupWithViewPager(mViewPager);
         mTabLayout.getTabAt(0).setIcon(R.drawable.home);
         mTabLayout.getTabAt(1).setIcon(R.drawable.create);
         mTabLayout.getTabAt(2).setIcon(R.drawable.info);
+        mViewPager.setCurrentItem(1);
     }
     private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new HomeFragment(), "Home");
         adapter.addFragment(new CreateFragment(), "Create");
         adapter.addFragment(new InfoFragment(), "Info");

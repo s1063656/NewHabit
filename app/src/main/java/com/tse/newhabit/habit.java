@@ -10,23 +10,35 @@ import java.util.Date;
 public class Habit {
     private String Title;
     private ArrayList<Calendar> HabitCalendarList = new ArrayList<>();
+    private ArrayList<Object> HabitAlarmList = new ArrayList<>();
     private Boolean [] check = new Boolean [21];
     final private Date date = new Date();
+    public Object beginDate;
     private String[] diary = new String[21];
+
+    public Habit(String t){
+        this.Title = t;
+        init();
+    }
+
+    public Habit(String t,Object date){
+        this.Title = t;
+        this.beginDate = date;
+    }
+
+
     public String getDateTime(){
         SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy/MM/dd");
         String strDate = sdFormat.format(date);
         return strDate;
     }
-    public Habit(String t){
-         this.Title = t;
-         init();
-    }
+
     public void init(){
         for(int i=0;i<21;i++){
             check[i]=false;
         }
     }
+
     public ArrayList<Calendar> getCalendar(){
         return HabitCalendarList;
     }
@@ -35,7 +47,10 @@ public class Habit {
     }
     public String rData(){
         return new SimpleDateFormat("HH:mm").format(HabitCalendarList.get(HabitCalendarList.size()-1).getTime());
-    };
+    }
+    public ArrayList<Object> getHabitAlarmList(){
+        return HabitAlarmList;
+    }
     public String getTitle(){
         return Title;
     }
@@ -50,6 +65,7 @@ public class Habit {
             }
         }
         if(!ifSame) {
+            HabitAlarmList.add(calendarData);
             HabitCalendarList.add(calendar);
             Toast.makeText(context, df.format(HabitCalendarList.get(HabitCalendarList.size() - 1).getTime()), Toast.LENGTH_SHORT).show();
             System.out.println(df.format(HabitCalendarList.get(HabitCalendarList.size() - 1).getTime()));

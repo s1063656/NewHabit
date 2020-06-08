@@ -3,6 +3,7 @@ package com.tse.newhabit;
 import android.content.Context;
 
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,19 +18,23 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
+
 
 import java.util.ArrayList;
 import java.util.Date;
+
 
 public class RViewAdapter extends RecyclerView.Adapter<RViewAdapter.LinearViewHolder> {
     private Context mContext;
     private ArrayList<Habit> RVHabitList =  MainActivity.HabitList;
     private boolean[] Checkbox = new boolean[30];
     private RecyclerView historyRV;
+
     public RViewAdapter(Context context){
         this.mContext = context;
+
     }
+
     @NonNull
     @Override
     public RViewAdapter.LinearViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -38,7 +43,7 @@ public class RViewAdapter extends RecyclerView.Adapter<RViewAdapter.LinearViewHo
 
     @Override
     public void onBindViewHolder(@NonNull final RViewAdapter.LinearViewHolder holder, final int position) {
-        holder.RView_Title.setText((position+1)+"  /  "+MainActivity.HabitList.get(position).getTitle());
+        holder.RView_Title.setText((position+1)+"  /  "+RVHabitList.get(position).getTitle());
         holder.checkLight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,7 +72,6 @@ public class RViewAdapter extends RecyclerView.Adapter<RViewAdapter.LinearViewHo
                     public void onClick(View v) {
                         MainActivity.HabitList.get(position).editDiary(new Date(),editDiary.getText().toString());
                         holder.RView_Diary.setText(editDiary.getText().toString());
-
                         System.out.println("diary done");
                         close.dismiss();
                     }
