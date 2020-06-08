@@ -26,6 +26,7 @@ public class login extends AppCompatActivity {
     public void start(View v){
         email = (EditText) findViewById(R.id.userEmail);
         if(!email.getText().toString().equals("")){
+            MainActivity.HabitList.clear();
             Intent it = new Intent(this,MainActivity.class);
             it.putExtra("USERID",email.getText().toString().trim());
             FirebaseFirestore db = FirebaseFirestore.getInstance();
