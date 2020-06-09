@@ -105,6 +105,8 @@ public class CreateFragment extends Fragment {
                             habit.put("habitName",item.getTitle());
                             habit.put("beginDate",item.getDateTime());
                             habit.put("alarms",item.getHabitAlarmList());
+                            habit.put("checkboxs",item.getCheck());
+                            habit.put("diarys",item.getDiary());
                             db.collection(it.getStringExtra("USERID"))
                                     .add(habit)
                                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
