@@ -33,6 +33,8 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
+import static android.content.ContentValues.TAG;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -100,25 +102,25 @@ public class CreateFragment extends Fragment {
                             title.setText("");
                             close.dismiss();
                             Habit item = MainActivity.HabitList.get(MainActivity.HabitList.size()-1);
-                            FirebaseFirestore db = FirebaseFirestore.getInstance();
+                            final FirebaseFirestore db = FirebaseFirestore.getInstance();
                             Map<String,Object> habit = new HashMap<>();
                             habit.put("habitName",item.getTitle());
                             habit.put("beginDate",item.getDateTime());
                             habit.put("alarms",item.getHabitAlarmList());
                             habit.put("checkboxs",item.getCheck());
-                            habit.put("diarys",item.getDiary());
+                            habit.put("diaries",item.getDiary());
                             db.collection(it.getStringExtra("USERID"))
                                     .add(habit)
                                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                         @Override
                                         public void onSuccess(DocumentReference documentReference) {
-                                            Log.d("response","成功:"+documentReference.getId());
+                                            Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
                                         }
                                     })
                                     .addOnFailureListener(new OnFailureListener() {
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
-                                            Log.w("response","失敗:",e);
+                                            Log.w(TAG, "Error adding document", e);
                                         }
                                     });
                         }

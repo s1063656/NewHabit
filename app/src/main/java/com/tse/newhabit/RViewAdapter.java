@@ -2,6 +2,7 @@ package com.tse.newhabit;
 
 import android.content.Context;
 
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,8 +21,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import static android.content.ContentValues.TAG;
 
 
 public class RViewAdapter extends RecyclerView.Adapter<RViewAdapter.LinearViewHolder> {
@@ -29,12 +38,11 @@ public class RViewAdapter extends RecyclerView.Adapter<RViewAdapter.LinearViewHo
     private ArrayList<Habit> RVHabitList =  MainActivity.HabitList;
     private boolean[] Checkbox = new boolean[30];
     private RecyclerView historyRV;
-
-    public RViewAdapter(Context context){
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    public RViewAdapter(Context context) {
         this.mContext = context;
 
     }
-
     @NonNull
     @Override
     public RViewAdapter.LinearViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -43,6 +51,7 @@ public class RViewAdapter extends RecyclerView.Adapter<RViewAdapter.LinearViewHo
 
     @Override
     public void onBindViewHolder(@NonNull final RViewAdapter.LinearViewHolder holder, final int position) {
+
         holder.RView_Title.setText((position+1)+"  /  "+RVHabitList.get(position).getTitle());
         holder.checkLight.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,8 +79,32 @@ public class RViewAdapter extends RecyclerView.Adapter<RViewAdapter.LinearViewHo
                 diaryDialogDone.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        MainActivity.HabitList.get(position).editDiary(new Date(),editDiary.getText().toString());
+                        Habit item = MainActivity.HabitList.get(position);
+                        item.editDiary(new Date(),editDiary.getText().toString());
                         holder.RView_Diary.setText(editDiary.getText().toString());
+
+                        Map<String,Object> habit = new HashMap<>();
+                        habit.put("habitName",item.getTitle());
+                        habit.put("beginDate",item.getDateTime());
+                        habit.put("alarms",item.getHabitAlarmList());
+                        habit.put("checkboxs",item.getCheck());
+                        habit.put("diaries",item.getDiary());
+                        db.collection(MainActivity.userEmail)
+                                .document(item.getID())
+                                .set(habit)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w(TAG, "Error writing document", e);
+                                    }
+                                });
+
                         System.out.println("diary done");
                         close.dismiss();
                     }

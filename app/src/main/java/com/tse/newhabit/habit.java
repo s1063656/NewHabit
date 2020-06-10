@@ -1,32 +1,47 @@
 package com.tse.newhabit;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+
 public class Habit {
-    private String Title;
+    private String Title,ID;
     private ArrayList<Calendar> HabitCalendarList = new ArrayList<>();
-    private ArrayList<Object> HabitAlarmList = new ArrayList<>();
-    private Boolean [] check = new Boolean [21];
+    private ArrayList<Object> alarms = new ArrayList<>();
+    private ArrayList<Boolean> checks = new ArrayList<>();
     final private Date date = new Date();
     public Object beginDate;
-    private String[] diary = new String[21];
+
+    private ArrayList<String> diaries = new ArrayList<>();
 
     public Habit(String t){
         this.Title = t;
         init();
     }
 
-    public Habit(String t,Object date){
+    public Habit(String t,Object date,Object alarms,Object checks,Object diaries,String ID){
         this.Title = t;
         this.beginDate = date;
+        this.diaries = (ArrayList<String>) diaries;
+        this.alarms = (ArrayList<Object>) alarms;
+        this.checks = (ArrayList<Boolean>) checks;
+        this.ID = ID;
+    }
+    public String getID(){
+        return ID;
+    }
+    public ArrayList<Boolean> getCheck(){
+        return checks;
     }
 
-
+    public ArrayList<String> getDiary(){
+        return diaries;
+    }
     public String getDateTime(){
         SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy/MM/dd");
         String strDate = sdFormat.format(date);
@@ -35,7 +50,8 @@ public class Habit {
 
     public void init(){
         for(int i=0;i<21;i++){
-            check[i]=false;
+            checks.add(false);
+            diaries.add("");
         }
     }
 
@@ -49,7 +65,7 @@ public class Habit {
         return new SimpleDateFormat("HH:mm").format(HabitCalendarList.get(HabitCalendarList.size()-1).getTime());
     }
     public ArrayList<Object> getHabitAlarmList(){
-        return HabitAlarmList;
+        return alarms;
     }
     public String getTitle(){
         return Title;
@@ -65,7 +81,7 @@ public class Habit {
             }
         }
         if(!ifSame) {
-            HabitAlarmList.add(calendarData);
+            alarms.add(calendarData);
             HabitCalendarList.add(calendar);
             Toast.makeText(context, df.format(HabitCalendarList.get(HabitCalendarList.size() - 1).getTime()), Toast.LENGTH_SHORT).show();
             System.out.println(df.format(HabitCalendarList.get(HabitCalendarList.size() - 1).getTime()));
@@ -89,10 +105,10 @@ public class Habit {
 
     }
     public void editDiary(Date d,String newDiary){
-        diary[getGapCount(d)]=newDiary;
+        diaries.set(getGapCount(d),newDiary);
     }
     public String getDiary(int position){
-        return diary[position];
+        return diaries.get(position);
     }
     public  int getGapCount(Date endDate) {
              Calendar fromCalendar = Calendar.getInstance();

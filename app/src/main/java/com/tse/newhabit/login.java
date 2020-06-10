@@ -2,6 +2,7 @@ package com.tse.newhabit;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.util.Linkify;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -24,10 +25,10 @@ public class login extends AppCompatActivity {
         setContentView(R.layout.login);
     }
     public void start(View v){
-
         email = (EditText) findViewById(R.id.userEmail);
-        if(!email.getText().toString().equals("")){
 
+        if(!email.getText().toString().equals("")){
+            if(Linkify.addLinks(email.getText(),Linkify.EMAIL_ADDRESSES)) {
                 MainActivity.HabitList.clear();
                 Intent it = new Intent(this, MainActivity.class);
                 it.putExtra("USERID", email.getText().toString().trim());
@@ -40,9 +41,8 @@ public class login extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     int i = 0;
                                     for (QueryDocumentSnapshot document : task.getResult()) {
-                                        MainActivity.HabitList.add(new Habit(document.getString("habitName"), document.get("beginDate")));
+                                        MainActivity.HabitList.add(new Habit(document.getString("habitName"), document.get("beginDate"),document.get("alarms"),document.get("checkboxs"),document.get("diaries"),document.getId()));
                                         Log.d("TAG", document.getId() + " => " + MainActivity.HabitList.get(i).getTitle());
-                                        Log.d("TAG", document.getId() + " => " + document.getData());
                                         i++;
                                     }
                                 } else {
@@ -55,7 +55,9 @@ public class login extends AppCompatActivity {
                 } catch (Exception e) {
                 }
                 startActivity(it);
-
+            }else{
+                Toast.makeText(this,"請正確輸入信箱資料",Toast.LENGTH_SHORT).show();
+            }
         }else{
             Toast.makeText(this,"請輸入信箱已取得資料",Toast.LENGTH_SHORT).show();
         }

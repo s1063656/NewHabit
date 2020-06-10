@@ -19,7 +19,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    public String userEmail;
+    public static String userEmail;
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
     private ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Intent it = getIntent();
-
+        userEmail = it.getStringExtra("USERID");
 
         mViewPager = (ViewPager) findViewById(R.id.viewPager);
         mTabLayout = (TabLayout) findViewById(R.id.tabLayout);
